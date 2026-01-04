@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyLog - 添加记录</title>
+    <style>
+        :root {
+            /* Brand */
+            --color-primary: #6FCFC3;
+            --color-primary-light: #E6F6F4;
+
+            /* Category */
+            --color-breast: #E6F6F4;
+            --color-bottle: #E9F3FF;
+            --color-diaper: #F2F4F6;
+            --color-supplement: #FFF1C9;
+            --color-event: #E9E6FF;
+
+            /* Text */
+            --text-primary: #2F3A3F;
+            --text-secondary: #8A9AA5;
+            --text-disabled: #BFC9D1;
+
+            /* Feedback */
+            --feedback-success: #7BC8A4;
+            --feedback-warning: #FFD59A;
+
+            /* Surface */
+            --bg-page: #FAFBFC;
+            --bg-card: #FFFFFF;
+            --divider: #EDF1F4;
+
+            /* Typography */
+            --font-title: 22px;
+            --font-card-title: 16px;
+            --font-body: 14px;
+            --font-caption: 12px;
+            --line-height-title: 1.3;
+            --line-height-body: 1.6;
+
+            /* Radius / Spacing */
+            --radius-card: 16px;
+            --radius-button: 14px;
+            --radius-pill: 12px;
+            --space-page: 16px;
+            --space-card: 16px;
+            --space-gap: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background-color: var(--bg-page);
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-body);
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .nav-header {
+            display: flex;
+            align-items: center;
+            padding: var(--space-gap) var(--space-page);
+            background: var(--bg-card);
+            position: relative;
+        }
+
+        .back-btn {
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .nav-header h2 {
+            flex: 1;
+            text-align: center;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-right: 24px;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-page);
+        }
+
+        .section-title {
+            font-size: var(--font-card-title);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-gap);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-gap);
+        }
+
+        .category-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: 24px var(--space-card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+
+        .category-card:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .category-icon {
+            font-size: 36px;
+            margin-bottom: 4px;
+        }
+
+        .category-name {
+            font-size: var(--font-body);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .category-desc {
+            font-size: var(--font-caption);
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .quick-actions {
+            margin-top: 20px;
+        }
+
+        .quick-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: var(--space-card);
+            margin-bottom: var(--space-gap);
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+
+        .quick-card:active {
+            transform: scale(0.98);
+        }
+
+        .quick-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .quick-icon {
+            font-size: 28px;
+        }
+
+        .quick-content {
+            flex: 1;
+        }
+
+        .quick-title {
+            font-size: var(--font-body);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .quick-subtitle {
+            font-size: var(--font-caption);
+            color: var(--text-secondary);
+        }
+
+        .quick-arrow {
+            font-size: 20px;
+            color: var(--text-disabled);
+        }
+
+        .tab-bar {
+            height: 80px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--divider);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 15px;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--color-primary);
+        }
+
+        .tab-item .icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .add-btn {
+            width: 55px;
+            height: 55px;
+            background-color: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 30px;
+            margin-top: -40px;
+            box-shadow: 0 5px 15px rgba(111, 207, 195, 0.4);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .add-btn.active {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body>
+
+<div class="phone-container">
+    <div class="status-bar">
+        <span>9:41</span>
+        <span>📶 🔋</span>
+    </div>
+
+    <div class="nav-header">
+        <a href="index.html" class="back-btn">✕</a>
+        <h2>添加记录</h2>
+    </div>
+
+    <div class="content">
+        <div class="section-title">选择记录类型</div>
+
+        <div class="category-grid">
+            <a href="feeding.html" class="category-card">
+                <div class="category-icon">🍼</div>
+                <div class="category-name">喂奶</div>
+                <div class="category-desc">母乳/配方奶</div>
+            </a>
+
+            <a href="diaper.html" class="category-card">
+                <div class="category-icon">💧</div>
+                <div class="category-name">换尿布</div>
+                <div class="category-desc">尿湿/便便</div>
+            </a>
+
+            <a href="sleep.html" class="category-card">
+                <div class="category-icon">🌙</div>
+                <div class="category-name">睡眠</div>
+                <div class="category-desc">记录休息时间</div>
+            </a>
+
+            <a href="supplement.html" class="category-card">
+                <div class="category-icon">💊</div>
+                <div class="category-name">喂药</div>
+                <div class="category-desc">药品/补剂</div>
+            </a>
+
+            <div class="category-card" onclick="alert('功能开发中')">
+                <div class="category-icon">🍎</div>
+                <div class="category-name">辅食</div>
+                <div class="category-desc">记录饮食</div>
+            </div>
+
+            <div class="category-card" onclick="alert('功能开发中')">
+                <div class="category-icon">🌡️</div>
+                <div class="category-name">体温</div>
+                <div class="category-desc">测量记录</div>
+            </div>
+
+            <div class="category-card" onclick="alert('功能开发中')">
+                <div class="category-icon">📏</div>
+                <div class="category-name">成长</div>
+                <div class="category-desc">身高/体重</div>
+            </div>
+
+            <div class="category-card" onclick="alert('功能开发中')">
+                <div class="category-icon">💉</div>
+                <div class="category-name">疫苗</div>
+                <div class="category-desc">接种记录</div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <div class="section-title">快速记录</div>
+
+            <a href="feeding.html" class="quick-card">
+                <div class="quick-header">
+                    <div class="quick-icon">🍼</div>
+                    <div class="quick-content">
+                        <div class="quick-title">开始喂奶</div>
+                        <div class="quick-subtitle">上次：2小时前</div>
+                    </div>
+                    <div class="quick-arrow">›</div>
+                </div>
+            </a>
+
+            <a href="sleep.html" class="quick-card">
+                <div class="quick-header">
+                    <div class="quick-icon">😴</div>
+                    <div class="quick-content">
+                        <div class="quick-title">宝宝入睡</div>
+                        <div class="quick-subtitle">开始记录睡眠时间</div>
+                    </div>
+                    <div class="quick-arrow">›</div>
+                </div>
+            </a>
+
+            <a href="diaper.html" class="quick-card">
+                <div class="quick-header">
+                    <div class="quick-icon">💧</div>
+                    <div class="quick-content">
+                        <div class="quick-title">换尿布</div>
+                        <div class="quick-subtitle">上次：45分钟前</div>
+                    </div>
+                    <div class="quick-arrow">›</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <a href="index.html" class="tab-item">
+            <span class="icon">🏠</span>
+            <span>记录</span>
+        </a>
+        <a href="calendar.html" class="tab-item">
+            <span class="icon">📅</span>
+            <span>日历</span>
+        </a>
+        <a href="index.html" class="add-btn active">+</a>
+        <div class="tab-item">
+            <span class="icon">👥</span>
+            <span>社区</span>
+        </div>
+        <a href="profile.html" class="tab-item">
+            <span class="icon">👤</span>
+            <span>我的</span>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyLog - 睡眠记录</title>
+    <style>
+        :root {
+            /* Brand */
+            --color-primary: #6FCFC3;
+            --color-primary-light: #E6F6F4;
+
+            /* Category */
+            --color-breast: #E6F6F4;
+            --color-bottle: #E9F3FF;
+            --color-diaper: #F2F4F6;
+            --color-supplement: #FFF1C9;
+            --color-event: #E9E6FF;
+
+            /* Text */
+            --text-primary: #2F3A3F;
+            --text-secondary: #8A9AA5;
+            --text-disabled: #BFC9D1;
+
+            /* Feedback */
+            --feedback-success: #7BC8A4;
+            --feedback-warning: #FFD59A;
+
+            /* Surface */
+            --bg-page: #FAFBFC;
+            --bg-card: #FFFFFF;
+            --divider: #EDF1F4;
+
+            /* Typography */
+            --font-title: 22px;
+            --font-card-title: 16px;
+            --font-body: 14px;
+            --font-caption: 12px;
+            --line-height-title: 1.3;
+            --line-height-body: 1.6;
+
+            /* Radius / Spacing */
+            --radius-card: 16px;
+            --radius-button: 14px;
+            --radius-pill: 12px;
+            --space-page: 16px;
+            --space-card: 16px;
+            --space-gap: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background-color: var(--bg-page);
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-body);
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .nav-header {
+            display: flex;
+            align-items: center;
+            padding: var(--space-gap) var(--space-page);
+            background: var(--bg-card);
+            position: relative;
+        }
+
+        .back-btn {
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .nav-header h2 {
+            flex: 1;
+            text-align: center;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-right: 24px;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-page);
+        }
+
+        .stats-card {
+            background: var(--color-event);
+            border-radius: var(--radius-card);
+            padding: var(--space-card);
+            margin-bottom: var(--space-page);
+        }
+
+        .stats-title {
+            font-size: var(--font-card-title);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-gap);
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: var(--font-title);
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: var(--line-height-title);
+        }
+
+        .stat-label {
+            font-size: var(--font-caption);
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .current-status {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: var(--space-card);
+            margin-bottom: var(--space-page);
+            text-align: center;
+        }
+
+        .status-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .status-text {
+            font-size: var(--font-card-title);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .status-duration {
+            font-size: var(--font-body);
+            color: var(--text-secondary);
+        }
+
+        .action-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-button);
+            padding: 14px 24px;
+            font-size: var(--font-body);
+            font-weight: 600;
+            margin-top: 12px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: var(--font-card-title);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-gap);
+        }
+
+        .record-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-gap);
+        }
+
+        .record-item {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: var(--space-card);
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .record-type {
+            font-size: var(--font-body);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .record-duration {
+            font-size: var(--font-body);
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .record-time {
+            font-size: var(--font-caption);
+            color: var(--text-secondary);
+        }
+
+        .record-quality {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            font-size: var(--font-caption);
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .quality-good {
+            background: var(--color-primary-light);
+            color: var(--text-primary);
+        }
+
+        .quality-normal {
+            background: var(--color-diaper);
+            color: var(--text-primary);
+        }
+
+        .add-fab {
+            position: absolute;
+            bottom: 100px;
+            right: var(--space-page);
+            width: 56px;
+            height: 56px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(111, 207, 195, 0.4);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .tab-bar {
+            height: 80px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--divider);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 15px;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--color-primary);
+        }
+
+        .tab-item .icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .add-btn {
+            width: 55px;
+            height: 55px;
+            background-color: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 30px;
+            margin-top: -40px;
+            box-shadow: 0 5px 15px rgba(111, 207, 195, 0.4);
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="phone-container">
+    <div class="status-bar">
+        <span>9:41</span>
+        <span>📶 🔋</span>
+    </div>
+
+    <div class="nav-header">
+        <a href="index.html" class="back-btn">‹</a>
+        <h2>睡眠记录</h2>
+    </div>
+
+    <div class="content">
+        <div class="stats-card">
+            <div class="stats-title">📊 今日统计</div>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value">10.5h</div>
+                    <div class="stat-label">总睡眠</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">5次</div>
+                    <div class="stat-label">小睡次数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">2.1h</div>
+                    <div class="stat-label">平均时长</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="current-status">
+            <div class="status-icon">😴</div>
+            <div class="status-text">宝宝正在睡觉中...</div>
+            <div class="status-duration">已睡眠 1小时23分钟</div>
+            <button class="action-btn" onclick="alert('宝宝已醒来！')">记录醒来</button>
+        </div>
+
+        <div class="section-title">今日睡眠记录</div>
+
+        <div class="record-list">
+            <div class="record-item">
+                <div class="record-header">
+                    <div class="record-type">🌙 午睡</div>
+                    <div class="record-duration">1小时23分钟</div>
+                </div>
+                <div class="record-time">13:00 - 进行中</div>
+                <div class="record-quality quality-good">睡眠质量：良好</div>
+            </div>
+
+            <div class="record-item">
+                <div class="record-header">
+                    <div class="record-type">☀️ 早晨小睡</div>
+                    <div class="record-duration">1小时45分钟</div>
+                </div>
+                <div class="record-time">09:30 - 11:15</div>
+                <div class="record-quality quality-good">睡眠质量：良好</div>
+            </div>
+
+            <div class="record-item">
+                <div class="record-header">
+                    <div class="record-type">🌅 早晨小睡</div>
+                    <div class="record-duration">45分钟</div>
+                </div>
+                <div class="record-time">06:45 - 07:30</div>
+                <div class="record-quality quality-normal">睡眠质量：一般</div>
+            </div>
+        </div>
+
+        <div class="section-title" style="margin-top: 20px;">昨日睡眠记录</div>
+
+        <div class="record-list">
+            <div class="record-item">
+                <div class="record-header">
+                    <div class="record-type">🌙 夜间睡眠</div>
+                    <div class="record-duration">6小时30分钟</div>
+                </div>
+                <div class="record-time">19:00 - 01:30</div>
+                <div class="record-quality quality-good">睡眠质量：良好</div>
+            </div>
+
+            <div class="record-item">
+                <div class="record-header">
+                    <div class="record-type">🌙 下午小睡</div>
+                    <div class="record-duration">2小时15分钟</div>
+                </div>
+                <div class="record-time">14:30 - 16:45</div>
+                <div class="record-quality quality-good">睡眠质量：优秀</div>
+            </div>
+
+            <div class="record-item">
+                <div class="record-header">
+                    <div class="record-type">☀️ 上午小睡</div>
+                    <div class="record-duration">1小时20分钟</div>
+                </div>
+                <div class="record-time">10:00 - 11:20</div>
+                <div class="record-quality quality-normal">睡眠质量：一般</div>
+            </div>
+        </div>
+    </div>
+
+    <a href="add.html" class="add-fab">+</a>
+
+    <div class="tab-bar">
+        <a href="index.html" class="tab-item">
+            <span class="icon">🏠</span>
+            <span>记录</span>
+        </a>
+        <a href="calendar.html" class="tab-item">
+            <span class="icon">📅</span>
+            <span>日历</span>
+        </a>
+        <a href="add.html" class="add-btn">+</a>
+        <div class="tab-item">
+            <span class="icon">👥</span>
+            <span>社区</span>
+        </div>
+        <a href="profile.html" class="tab-item">
+            <span class="icon">👤</span>
+            <span>我的</span>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
