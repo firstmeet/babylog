@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyLog 原型图展示</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: #F0F0F0;
+            padding: 40px 20px;
+            overflow-x: auto;
+        }
+
+        .prototype-container {
+            display: flex;
+            gap: 30px;
+            min-width: fit-content;
+            padding: 20px;
+        }
+
+        .prototype-screen {
+            width: 375px;
+            flex-shrink: 0;
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .screen-title {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .screen-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 复用主样式 */
+        .prototype-screen .page {
+            display: block !important;
+            height: 667px;
+            overflow: auto;
+        }
+
+        .prototype-screen main {
+            padding-bottom: 0;
+        }
+
+        .prototype-screen .bottom-nav {
+            position: relative;
+        }
+
+        .prototype-screen .floating-timer {
+            display: none;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 32px;
+        }
+    </style>
+</head>
+<body>
+    <h1>BabyLog 原型图 - 完整页面展示</h1>
+    
+    <div class="prototype-container">
+        <!-- 首页 -->
+        <div class="screen-wrapper">
+            <div class="screen-title">1. 首页</div>
+            <div class="prototype-screen">
+                <main>
+                    <section class="page active">
+                        <!-- 宝宝信息卡片 -->
+                        <div class="baby-info-card">
+                            <h2 class="baby-name">小宝</h2>
+                            <div class="baby-avatar">
+                                <div class="avatar-content">
+                                    <div class="avatar-emoji">👶</div>
+                                    <p class="baby-update">最近活动: 12:AM</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 喂奶记录卡片 -->
+                        <div class="record-card feeding-card">
+                            <div class="card-header">
+                                <div class="card-icon">🍼</div>
+                                <div class="card-title">
+                                    <h3>喂奶</h3>
+                                    <div class="card-badges">
+                                        <span class="badge">6次 / 720ml</span>
+                                    </div>
+                                </div>
+                                <button class="card-action-btn">+</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="simple-info">最近：10:30 AM - 120ml</div>
+                            </div>
+                        </div>
+
+                        <!-- 双列卡片：换尿布 + 喂药 -->
+                        <div class="card-row">
+                            <div class="record-card diaper-card half-card">
+                                <div class="card-header-mini">
+                                    <div class="card-icon-mini">🩲</div>
+                                    <h3>换尿布</h3>
+                                </div>
+                                <div class="card-badges-mini">
+                                    <span class="badge-mini">湿</span>
+                                    <span class="badge-mini">臭</span>
+                                </div>
+                            </div>
+                            <div class="record-card medicine-card half-card">
+                                <div class="card-header-mini">
+                                    <div class="card-icon-mini">💊</div>
+                                    <h3>喂药</h3>
+                                    <button class="card-action-btn-mini">+</button>
+                                </div>
+                                <div class="medicine-status">今日未喂药</div>
+                            </div>
+                        </div>
+
+                        <!-- 睡眠记录卡片 -->
+                        <div class="record-card sleep-card">
+                            <div class="card-header">
+                                <div class="card-icon">🌙</div>
+                                <div class="card-title">
+                                    <h3>睡眠</h3>
+                                    <div class="card-badges">
+                                        <span class="badge">末头/左姿</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="record-time">今晚：07:00 PM - 09:00 PM</div>
+                            </div>
+                        </div>
+
+                        <!-- 成长卡片 -->
+                        <div class="record-card growth-card">
+                            <div class="card-header">
+                                <div class="card-icon">📏</div>
+                                <div class="card-title">
+                                    <h3>成长反馈</h3>
+                                    <span class="record-count">1条提醒</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="growth-subtitle">身高/体重趋势</div>
+                                <div class="growth-chart">
+                                    <svg width="100%" height="40" viewBox="0 0 300 40">
+                                        <path d="M 0 20 Q 50 15 100 18 T 200 22 T 300 20" 
+                                              fill="none" stroke="#80CBC4" stroke-width="2" opacity="0.6"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+                <!-- 底部导航栏 -->
+                <nav class="bottom-nav">
+                    <button class="nav-item active">
+                        <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span class="nav-label">首页</span>
+                    </button>
+                    <button class="nav-item">
+                        <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span class="nav-label">日历</span>
+                    </button>
+                    <button class="nav-item nav-add">
+                        <svg class="nav-icon" width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" fill="#80CBC4"/>
+                            <path d="M12 8v8M8 12h8" stroke="#FFFFFF" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <button class="nav-item">
+                        <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 3v18h18" stroke="currentColor" stroke-width="2"/>
+                            <path d="M18 17l-5-5-3 3-4-4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span class="nav-label">分析</span>
+                    </button>
+                    <button class="nav-item">
+                        <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span class="nav-label">我的</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 喂养表单页面 -->
+        <div class="screen-wrapper">
+            <div class="screen-title">2. 添加喂养记录</div>
+            <div class="prototype-screen">
+                <section class="page active" id="page-feeding-add" style="background: #C1E9EC;">
+                    <div class="page-header-custom">
+                        <button class="back-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <h2>添加喂养记录</h2>
+                        <div></div>
+                    </div>
+                    <div class="form-page-content">
+                        <form>
+                            <div class="form-group">
+                                <label>喂养类型</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="type" checked>
+                                        <span>母乳</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="type">
+                                        <span>奶瓶</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="type">
+                                        <span>辅食</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>喂养时间</label>
+                                <div class="time-inputs">
+                                    <input type="date" class="form-input" value="2026-01-06">
+                                    <input type="time" class="form-input" value="10:30">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>奶量 (ml)</label>
+                                <input type="number" class="form-input" placeholder="输入奶量" value="120">
+                            </div>
+                            <div class="form-group">
+                                <label>时长 (分钟)</label>
+                                <input type="number" class="form-input" placeholder="输入时长" value="15">
+                            </div>
+                            <div class="form-group">
+                                <label>备注</label>
+                                <textarea class="form-textarea" placeholder="添加备注（可选）" rows="2"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn-secondary">取消</button>
+                                <button type="submit" class="btn-primary">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- 喂养历史页面 -->
+        <div class="screen-wrapper">
+            <div class="screen-title">3. 喂养历史</div>
+            <div class="prototype-screen">
+                <section class="page active">
+                    <div class="page-header-custom">
+                        <button class="back-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <h2>喂养历史</h2>
+                        <button class="icon-btn">+</button>
+                    </div>
+                    
+                    <div class="tab-header">
+                        <button class="tab-btn active">历史</button>
+                        <button class="tab-btn">统计</button>
+                    </div>
+
+                    <div class="history-timeline" style="padding: 16px;">
+                        <div class="timeline-date">今天</div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">🍼</div>
+                            <div class="timeline-content">
+                                <div class="timeline-time">10:30</div>
+                                <div class="timeline-details">
+                                    <span class="timeline-tag">奶瓶</span>
+                                    <span class="timeline-tag">120ml</span>
+                                    <span class="timeline-tag">15分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">🍼</div>
+                            <div class="timeline-content">
+                                <div class="timeline-time">07:00</div>
+                                <div class="timeline-details">
+                                    <span class="timeline-tag">母乳</span>
+                                    <span class="timeline-tag">左侧</span>
+                                    <span class="timeline-tag">20分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-date" style="margin-top: 16px;">昨天</div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">🍼</div>
+                            <div class="timeline-content">
+                                <div class="timeline-time">22:00</div>
+                                <div class="timeline-details">
+                                    <span class="timeline-tag">奶瓶</span>
+                                    <span class="timeline-tag">100ml</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- 喂养统计页面 -->
+        <div class="screen-wrapper">
+            <div class="screen-title">4. 喂养统计</div>
+            <div class="prototype-screen">
+                <section class="page active">
+                    <div class="page-header-custom">
+                        <button class="back-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <h2>喂养统计</h2>
+                        <div></div>
+                    </div>
+                    
+                    <div class="tab-header">
+                        <button class="tab-btn">历史</button>
+                        <button class="tab-btn active">统计</button>
+                    </div>
+
+                    <div class="stats-container">
+                        <div class="stats-card">
+                            <h3>本周统计</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value">42</div>
+                                    <div class="stat-label">喂养次数</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">5040ml</div>
+                                    <div class="stat-label">总奶量</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">120ml</div>
+                                    <div class="stat-label">平均奶量</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <h3>喂养频次趋势</h3>
+                            <canvas id="chart1" width="300" height="150"></canvas>
+                        </div>
+
+                        <div class="stats-card">
+                            <h3>奶量趋势</h3>
+                            <canvas id="chart2" width="300" height="150"></canvas>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- 睡眠记录页面 -->
+        <div class="screen-wrapper">
+            <div class="screen-title">5. 添加睡眠记录</div>
+            <div class="prototype-screen">
+                <section class="page active" style="background: #C8C6E5;">
+                    <div class="page-header-custom">
+                        <button class="back-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <h2>添加睡眠记录</h2>
+                        <div></div>
+                    </div>
+                    <div class="form-page-content">
+                        <form>
+                            <div class="form-group">
+                                <label>开始时间</label>
+                                <div class="time-inputs">
+                                    <input type="date" class="form-input" value="2026-01-06">
+                                    <input type="time" class="form-input" value="19:00">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>结束时间</label>
+                                <div class="time-inputs">
+                                    <input type="date" class="form-input" value="2026-01-06">
+                                    <input type="time" class="form-input" value="21:00">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>睡眠质量</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="quality" checked>
+                                        <span>良好</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="quality">
+                                        <span>一般</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="quality">
+                                        <span>较差</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn-secondary">取消</button>
+                                <button type="submit" class="btn-primary">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- 换尿布记录页面 -->
+        <div class="screen-wrapper">
+            <div class="screen-title">6. 添加换尿布记录</div>
+            <div class="prototype-screen">
+                <section class="page active" style="background: #B5E7CA;">
+                    <div class="page-header-custom">
+                        <button class="back-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <h2>添加换尿布记录</h2>
+                        <div></div>
+                    </div>
+                    <div class="form-page-content">
+                        <form>
+                            <div class="form-group">
+                                <label>时间</label>
+                                <div class="time-inputs">
+                                    <input type="date" class="form-input" value="2026-01-06">
+                                    <input type="time" class="form-input" value="14:30">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>类型</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="diaper-type" checked>
+                                        <span>尿湿</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="diaper-type">
+                                        <span>便便</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="diaper-type">
+                                        <span>混合</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn-secondary">取消</button>
+                                <button type="submit" class="btn-primary">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- 我的页面 -->
+        <div class="screen-wrapper">
+            <div class="screen-title">7. 我的页面</div>
+            <div class="prototype-screen">
+                <section class="page active">
+                    <div class="profile-container" style="padding: 20px;">
+                        <div class="profile-header" style="text-align: center; margin-bottom: 30px;">
+                            <div style="width: 80px; height: 80px; margin: 0 auto 10px; border-radius: 50%; background: #E0E0E0; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+                                👶
+                            </div>
+                            <h2 style="font-size: 20px; margin-bottom: 4px;">小宝</h2>
+                            <p style="color: #999; font-size: 14px;">6个月11天</p>
+                        </div>
+
+                        <div class="profile-section" style="margin-bottom: 20px;">
+                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">基本信息</h3>
+                            <div style="background: #FFF; border-radius: 12px; padding: 16px;">
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                                    <span style="color: #666;">出生日期</span>
+                                    <span>2024年6月25日</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #F0F0F0;">
+                                    <span style="color: #666;">性别</span>
+                                    <span>男宝宝</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-section">
+                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">设置</h3>
+                            <div style="background: #FFF; border-radius: 12px; padding: 16px;">
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                                    <span>提醒设置</span>
+                                    <span style="color: #80CBC4;">›</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #F0F0F0;">
+                                    <span>数据管理</span>
+                                    <span style="color: #80CBC4;">›</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #F0F0F0;">
+                                    <span>关于</span>
+                                    <span style="color: #80CBC4;">›</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="components/chart.js"></script>
+    <script>
+        // 绘制简单的图表
+        setTimeout(() => {
+            const canvas1 = document.getElementById('chart1');
+            const canvas2 = document.getElementById('chart2');
+            
+            if (canvas1 && Chart) {
+                Chart.drawLineChart(canvas1, {
+                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    values: [5, 6, 5, 7, 6, 6, 7]
+                }, {
+                    width: 300,
+                    height: 150
+                });
+            }
+
+            if (canvas2 && Chart) {
+                Chart.drawBarChart(canvas2, {
+                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    values: [600, 720, 600, 840, 720, 720, 840]
+                }, {
+                    width: 300,
+                    height: 150
+                });
+            }
+        }, 100);
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>BabyLog - 宝宝记录</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <!-- 首页 - 记录页 -->
+        <section id="page-home" class="page active">
+            <!-- 宝宝信息卡片 -->
+            <div class="baby-info-card">
+                <h2 class="baby-name">小宝</h2>
+                <div class="baby-avatar">
+                    <div class="avatar-content">
+                        <div class="avatar-emoji">
+                            <img src="baby.jpg" alt="宝宝头像">
+                        </div>
+                        <p class="baby-update">最近活动: 12:AM</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 喂奶记录卡片 -->
+            <div class="record-card feeding-card" onclick="switchPage('feeding-history')" style="cursor: pointer;">
+                <div class="card-header">
+                    <div class="card-icon">🍼</div>
+                    <div class="card-title">
+                        <h3>喂奶</h3>
+                        <div class="card-badges">
+                            <span class="badge">6次 / 720ml</span>
+                        </div>
+                    </div>
+                    <button class="card-action-btn">+</button>
+                </div>
+                <div class="card-body">
+                    <div class="simple-info">最近：10:30 AM - 120ml</div>
+                </div>
+            </div>
+
+            <!-- 双列卡片：换尿布 + 滑痕 -->
+            <div class="card-row">
+                <div class="record-card diaper-card half-card">
+                    <div class="card-header-mini">
+                        <div class="card-icon-mini">🩲</div>
+                        <h3>换尿布</h3>
+                    </div>
+                    <div class="card-badges-mini">
+                        <span class="badge-mini">湿</span>
+                        <span class="badge-mini">臭</span>
+                    </div>
+                </div>
+                <div class="record-card medicine-card half-card">
+                    <div class="card-header-mini">
+                        <div class="card-icon-mini">💊</div>
+                        <h3>喂药</h3>
+                        <button class="card-action-btn-mini">+</button>
+                    </div>
+                    <div class="medicine-status">今日未喂药</div>
+                </div>
+            </div>
+
+            <!-- 睡眠记录卡片 -->
+            <div class="record-card sleep-card">
+                <div class="card-header">
+                    <div class="card-icon">🌙</div>
+                    <div class="card-title">
+                        <h3>睡眠</h3>
+                        <div class="card-badges">
+                            <span class="badge">末头/左姿</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="record-time">今晚：07:00 PM - 09:00 PM</div>
+                </div>
+            </div>
+
+            <!-- 成长卡片 -->
+            <div class="record-card growth-card">
+                <div class="card-header">
+                    <div class="card-icon">📏</div>
+                    <div class="card-title">
+                        <h3>成长反馈</h3>
+                        <span class="record-count">1条提醒</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="growth-subtitle">身高/体重趋势</div>
+                    <div class="growth-chart">
+                        <svg width="100%" height="40" viewBox="0 0 300 40">
+                            <path d="M 0 20 Q 50 15 100 18 T 200 22 T 300 20" 
+                                  fill="none" stroke="#80CBC4" stroke-width="2" opacity="0.6"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 提醒页 -->
+        <section id="page-reminder" class="page">
+            <div class="page-header">
+                <h2>提醒事项</h2>
+                <button class="add-reminder-btn">+ 添加提醒</button>
+            </div>
+            
+            <div class="reminder-list">
+                <div class="reminder-item">
+                    <div class="reminder-icon feeding-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M6 4v16M18 4v16M6 4h12M6 20h12" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="reminder-content">
+                        <h4>喂奶提醒</h4>
+                        <p>每3小时提醒一次</p>
+                        <span class="next-time">下次：15:00</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="reminder-item">
+                    <div class="reminder-icon sleep-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="reminder-content">
+                        <h4>午睡时间</h4>
+                        <p>每天 14:00</p>
+                        <span class="next-time">下次：明天 14:00</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="reminder-item">
+                    <div class="reminder-icon health-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="reminder-content">
+                        <h4>疫苗接种</h4>
+                        <p>7个月龄疫苗</p>
+                        <span class="next-time">2026年2月15日</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="reminder-item">
+                    <div class="reminder-icon diaper-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <rect x="4" y="8" width="16" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="reminder-content">
+                        <h4>换尿布提醒</h4>
+                        <p>每2小时提醒一次</p>
+                        <span class="next-time">下次：14:00</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分析页 -->
+        <section id="page-analysis" class="page">
+            <div class="page-header">
+                <h2>数据分析</h2>
+                <div class="period-selector">
+                    <button class="period-btn active">本周</button>
+                    <button class="period-btn">本月</button>
+                    <button class="period-btn">全部</button>
+                </div>
+            </div>
+
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-icon feeding-bg">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M6 4v16M18 4v16M6 4h12" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">本周喂奶</span>
+                        <span class="stat-value">56次</span>
+                        <span class="stat-change positive">↑ 8%</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon sleep-bg">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">平均睡眠</span>
+                        <span class="stat-value">14.2小时/天</span>
+                        <span class="stat-change positive">↑ 0.5h</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon diaper-bg">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect x="4" y="8" width="16" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">本周尿布</span>
+                        <span class="stat-value">42次</span>
+                        <span class="stat-change">→ 持平</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>本周喂奶趋势</h3>
+                <canvas id="feedingChart" width="350" height="200"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3>睡眠时长统计</h3>
+                <canvas id="sleepChart" width="350" height="200"></canvas>
+            </div>
+        </section>
+
+        <!-- 会档页 -->
+        <section id="page-profile" class="page">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23E8F5F4'/%3E%3Ctext x='50' y='62' font-size='40' text-anchor='middle' fill='%237ECEC5'%3E👶%3C/text%3E%3C/svg%3E" alt="宝宝头像">
+                    <button class="edit-avatar-btn">📷</button>
+                </div>
+                <h2 class="profile-name">小宝</h2>
+                <p class="profile-age">6个月12天</p>
+            </div>
+
+            <div class="profile-section">
+                <h3 class="section-title">基本信息</h3>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label">姓名</span>
+                        <span class="info-value">小宝</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">性别</span>
+                        <span class="info-value">男宝宝</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">出生日期</span>
+                        <span class="info-value">2024年6月25日</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">出生体重</span>
+                        <span class="info-value">3.2 kg</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">出生身高</span>
+                        <span class="info-value">50 cm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3 class="section-title">成长里程碑</h3>
+                <div class="milestone-list">
+                    <div class="milestone-item completed">
+                        <div class="milestone-icon">✓</div>
+                        <div class="milestone-content">
+                            <h4>第一次微笑</h4>
+                            <p>2个月3天 · 2024年8月28日</p>
+                        </div>
+                    </div>
+                    <div class="milestone-item completed">
+                        <div class="milestone-icon">✓</div>
+                        <div class="milestone-content">
+                            <h4>会翻身了</h4>
+                            <p>4个月15天 · 2024年11月9日</p>
+                        </div>
+                    </div>
+                    <div class="milestone-item completed">
+                        <div class="milestone-icon">✓</div>
+                        <div class="milestone-content">
+                            <h4>第一次辅食</h4>
+                            <p>6个月 · 2024年12月25日</p>
+                        </div>
+                    </div>
+                    <div class="milestone-item pending">
+                        <div class="milestone-icon">○</div>
+                        <div class="milestone-content">
+                            <h4>会坐</h4>
+                            <p>即将到来</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3 class="section-title">设置</h3>
+                <div class="settings-list">
+                    <button class="setting-item">
+                        <span>通知设置</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M8 4L14 10L8 16" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <button class="setting-item">
+                        <span>数据导出</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M8 4L14 10L8 16" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <button class="setting-item">
+                        <span>关于应用</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M8 4L14 10L8 16" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 喂养历史页面 -->
+        <section id="page-feeding-history" class="page">
+            <div class="page-header-custom">
+                <button class="back-btn" onclick="switchPage('home')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <h2>喂养历史</h2>
+                <button class="icon-btn" onclick="showFeedingForm()">+</button>
+            </div>
+            
+            <!-- 统计标签页 -->
+            <div class="tab-header">
+                <button class="tab-btn active" onclick="switchFeedingTab('history')">历史</button>
+                <button class="tab-btn" onclick="switchFeedingTab('stats')">统计</button>
+            </div>
+
+            <!-- 历史列表 -->
+            <div id="feedingHistoryTab" class="tab-content active">
+                <div class="history-timeline" id="feedingHistoryList">
+                    <div class="empty-state">
+                        <p>暂无记录</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 统计分析 -->
+            <div id="feedingStatsTab" class="tab-content">
+                <div class="stats-container">
+                    <div class="stats-card">
+                        <h3>本周统计</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value" id="weeklyCount">0</div>
+                                <div class="stat-label">喂养次数</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="weeklyAmount">0ml</div>
+                                <div class="stat-label">总奶量</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="weeklyAvg">0ml</div>
+                                <div class="stat-label">平均奶量</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <h3>喂养频次趋势</h3>
+                        <canvas id="feedingCountChart" width="300" height="200"></canvas>
+                    </div>
+
+                    <div class="stats-card">
+                        <h3>奶量趋势</h3>
+                        <canvas id="feedingAmountChart" width="300" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-page="home">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">首页</span>
+        </button>
+        
+        <button class="nav-item" data-page="reminder">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">日历</span>
+        </button>
+
+        <button class="nav-item nav-add" id="addBtn">
+            <div class="add-btn-circle">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <path d="M14 6v16M6 14h16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </button>
+
+        <button class="nav-item" data-page="analysis">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 20V10M12 20V4M6 20v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">分析</span>
+        </button>
+
+        <button class="nav-item" data-page="profile">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">我的</span>
+        </button>
+    </nav>
+
+    <!-- 添加记录弹出面板 -->
+    <div id="addPanel" class="add-panel">
+        <div class="add-panel-overlay"></div>
+        <div class="add-panel-content">
+            <div class="add-panel-header">
+                <h3>添加记录</h3>
+                <button class="close-panel-btn">×</button>
+            </div>
+            <div class="add-options">
+                <button class="add-option feeding-option" onclick="showFeedingForm()">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 4v16M18 4v16M6 4h12M6 20h12M9 4v16M15 4v16" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>喂奶</span>
+                </button>
+                <button class="add-option sleep-option" onclick="showSleepForm()">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>睡眠</span>
+                </button>
+                <button class="add-option diaper-option" onclick="showDiaperForm()">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <rect x="4" y="8" width="16" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>尿布</span>
+                </button>
+                <button class="add-option medicine-option" onclick="showMedicineForm()">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M19.43 12.98l1.38-1.38a2 2 0 000-2.83l-2.58-2.58a2 2 0 00-2.83 0l-1.38 1.38m7.41 5.41l-7.07 7.07M8.5 8.5l7.07 7.07" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>喂药</span>
+                </button>
+                <button class="add-option growth-option" onclick="showGrowthForm()">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2v20M17 7l-5-5-5 5" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>成长</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 喂养计时器浮动组件 -->
+    <div id="feedingTimer" class="floating-timer">
+        <div class="timer-compact" onclick="toggleTimer()">
+            <div class="timer-icon">⏱️</div>
+            <div class="timer-time">00:00</div>
+        </div>
+        <div class="timer-expanded">
+            <div class="timer-header">
+                <h3>母乳喂养计时</h3>
+                <button class="timer-minimize" onclick="toggleTimer()">—</button>
+            </div>
+            <div class="timer-display" id="timerDisplay">00:00:00</div>
+            <div class="timer-side-selector">
+                <button class="side-btn active" data-side="left" onclick="switchTimerSide('left')">
+                    左侧
+                </button>
+                <button class="side-btn" data-side="right" onclick="switchTimerSide('right')">
+                    右侧
+                </button>
+            </div>
+            <div class="timer-controls">
+                <button class="timer-btn pause-btn" id="timerPauseBtn" onclick="toggleTimerPause()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                        <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                    </svg>
+                    <span>暂停</span>
+                </button>
+                <button class="timer-btn stop-btn" onclick="stopFeedingTimer()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <rect x="6" y="6" width="12" height="12" fill="currentColor"/>
+                    </svg>
+                    <span>停止并保存</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+        <!-- 喂养记录表单页面 -->
+        <section id="page-feeding-add" class="page">
+            <div class="page-header-custom">
+                <button class="back-btn" onclick="switchPage('home')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <h2>添加喂养记录</h2>
+                <div></div>
+            </div>
+            <div class="form-page-content">
+                <form id="feedingForm">
+                    <!-- 喂养类型 -->
+                    <div class="form-group">
+                        <label>喂养类型</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="feedingType" value="breast" checked>
+                                <span>母乳</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="feedingType" value="bottle">
+                                <span>奶瓶</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="feedingType" value="food">
+                                <span>辅食</span>
+                            </label>
+                        </div>
+                        <button type="button" class="timer-quick-btn" id="startTimerBtn" onclick="startFeedingTimerFromForm()">
+                            ⏱️ 开始计时
+                        </button>
+                    </div>
+
+                    <!-- 时间选择 -->
+                    <div class="form-group">
+                        <label>喂养时间</label>
+                        <div class="time-inputs">
+                            <input type="date" id="feedingDate" class="form-input">
+                            <input type="time" id="feedingTime" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- 乳房选择（仅母乳时显示） -->
+                    <div class="form-group" id="sideGroup">
+                        <label>选择乳房</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="side" value="left" checked>
+                                <span>左侧</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="side" value="right">
+                                <span>右侧</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="side" value="both">
+                                <span>两侧</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 奶量输入 -->
+                    <div class="form-group">
+                        <label>奶量 (ml)</label>
+                        <input type="number" id="feedingAmount" class="form-input" placeholder="输入奶量" min="0" step="10">
+                    </div>
+
+                    <!-- 时长输入 -->
+                    <div class="form-group">
+                        <label>时长 (分钟)</label>
+                        <input type="number" id="feedingDuration" class="form-input" placeholder="输入时长" min="0" step="1">
+                    </div>
+
+                    <!-- 喂养状态 -->
+                    <div class="form-group">
+                        <label>喂养状态</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="status" value="normal" checked>
+                                <span>清醒奶</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="status" value="sleep">
+                                <span>睡眠奶</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 备注 -->
+                    <div class="form-group">
+                        <label>备注</label>
+                        <textarea id="feedingNotes" class="form-textarea" placeholder="添加备注（可选）" rows="3"></textarea>
+                    </div>
+
+                    <!-- 按钮组 -->
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="switchPage('home')">取消</button>
+                        <button type="submit" class="btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 睡眠记录表单页面 -->
+        <section id="page-sleep-add" class="page">
+            <div class="page-header-custom">
+                <button class="back-btn" onclick="switchPage('home')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <h2>添加睡眠记录</h2>
+                <div></div>
+            </div>
+            <div class="form-page-content">
+                <form id="sleepForm" onsubmit="submitSleepForm(event)">
+                    <div class="form-group">
+                        <label>开始时间</label>
+                        <div class="time-inputs">
+                            <input type="date" id="sleepStartDate" class="form-input" required>
+                            <input type="time" id="sleepStartTime" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>结束时间</label>
+                        <div class="time-inputs">
+                            <input type="date" id="sleepEndDate" class="form-input" required>
+                            <input type="time" id="sleepEndTime" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>睡眠质量</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="sleepQuality" value="good" checked>
+                                <span>良好</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="sleepQuality" value="normal">
+                                <span>一般</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="sleepQuality" value="poor">
+                                <span>较差</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>备注</label>
+                        <textarea id="sleepNotes" class="form-textarea" placeholder="添加备注（可选）" rows="2"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="switchPage('home')">取消</button>
+                        <button type="submit" class="btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 换尿布记录表单页面 -->
+        <section id="page-diaper-add" class="page">
+            <div class="page-header-custom">
+                <button class="back-btn" onclick="switchPage('home')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <h2>添加换尿布记录</h2>
+                <div></div>
+            </div>
+            <div class="form-page-content">
+                <form id="diaperForm" onsubmit="submitDiaperForm(event)">
+                    <div class="form-group">
+                        <label>时间</label>
+                        <div class="time-inputs">
+                            <input type="date" id="diaperDate" class="form-input" required>
+                            <input type="time" id="diaperTime" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>类型</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="diaperType" value="wet" checked>
+                                <span>尿湿</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="diaperType" value="poop">
+                                <span>便便</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="diaperType" value="both">
+                                <span>混合</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>备注</label>
+                        <textarea id="diaperNotes" class="form-textarea" placeholder="添加备注（可选）" rows="2"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="switchPage('home')">取消</button>
+                        <button type="submit" class="btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 喂药记录表单页面 -->
+        <section id="page-medicine-add" class="page">
+            <div class="page-header-custom">
+                <button class="back-btn" onclick="switchPage('home')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <h2>添加用药记录</h2>
+                <div></div>
+            </div>
+            <div class="form-page-content">
+                <form id="medicineForm" onsubmit="submitMedicineForm(event)">
+                    <div class="form-group">
+                        <label>药品名称</label>
+                        <input type="text" id="medicineName" class="form-input" placeholder="输入药品名称" required>
+                    </div>
+                    <div class="form-group">
+                        <label>时间</label>
+                        <div class="time-inputs">
+                            <input type="date" id="medicineDate" class="form-input" required>
+                            <input type="time" id="medicineTime" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>剂量</label>
+                        <input type="text" id="medicineDosage" class="form-input" placeholder="例如：5ml" required>
+                    </div>
+                    <div class="form-group">
+                        <label>备注</label>
+                        <textarea id="medicineNotes" class="form-textarea" placeholder="添加备注（可选）" rows="2"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="switchPage('home')">取消</button>
+                        <button type="submit" class="btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 成长记录表单页面 -->
+        <section id="page-growth-add" class="page">
+            <div class="page-header-custom">
+                <button class="back-btn" onclick="switchPage('home')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <h2>添加成长记录</h2>
+                <div></div>
+            </div>
+            <div class="form-page-content">
+                <form id="growthForm" onsubmit="submitGrowthForm(event)">
+                    <div class="form-group">
+                        <label>测量时间</label>
+                        <input type="date" id="growthDate" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>身高 (cm)</label>
+                        <input type="number" id="growthHeight" class="form-input" placeholder="输入身高" step="0.1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>体重 (kg)</label>
+                        <input type="number" id="growthWeight" class="form-input" placeholder="输入体重" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>头围 (cm)</label>
+                        <input type="number" id="growthHead" class="form-input" placeholder="输入头围" step="0.1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>备注</label>
+                        <textarea id="growthNotes" class="form-textarea" placeholder="添加备注或里程碑事件" rows="2"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="switchPage('home')">取消</button>
+                        <button type="submit" class="btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- 工具类 -->
+    <script src="utils/storage.js"></script>
+    <script src="utils/date-helper.js"></script>
+    <script src="utils/notification.js"></script>
+
+    <!-- 组件 -->
+    <script src="components/modal.js"></script>
+    <script src="components/chart.js"></script>
+    <script src="components/datetime-picker.js"></script>
+
+    <!-- 数据管理 -->
+    <script src="modules/data-manager.js"></script>
+
+    <!-- 功能模块 -->
+    <script src="modules/feeding.js"></script>
+    <script src="modules/diaper.js"></script>
+    <script src="modules/sleep.js"></script>
+    <script src="modules/medicine.js"></script>
+    <script src="modules/growth.js"></script>
+
+    <!-- 主应用 -->
+    <script src="app.js"></script>
+</body>
+</html>
+
